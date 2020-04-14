@@ -20,7 +20,7 @@ public class GreedySchedulingPlusWaitingTimeAlgorithm extends TripSchedulingAlgo
         int[] index=sort_array(a);
 
         while(sign==0&&temp<size){
-            if(a[index[temp]]<max_waiting_time){
+            if(a[temp]<max_waiting_time){
                 sign=1;
                 temp--;
             }
