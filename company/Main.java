@@ -6,7 +6,7 @@ import static com.company.TripSchedulingAlgorithm.*;
 
 public class Main {
     public static void main(String[] args) {
-        int k = 1;//car
+        int k = 5;//car
         //0-29 electronic car 30-99 normal car
         int n = 10;//customer
         //Create n random customers and their destination
@@ -32,11 +32,14 @@ public class Main {
         }
       //  GreedySchedulingAlgorithm.simulate(car_list,demand,n);
         // GreedySchedulingPlusAlgorithm.simulate(car_list,demand,n);
-       // GreedySchedulingPlusPreferZoneAlgorithm instance1=new GreedySchedulingPlusPreferZoneAlgorithm(k);
-       //  GreedySchedulingPlusPreferZoneAlgorithm.simulate(car_list1,demand,n);
         //GreedySchedulingPlusElectronicCarsAlgorithm.simulate(car_list,demand,n);
 
-        GreedySchedulingPlusWaitingTimeAlgorithm.simulate(car_list,demand,n,1800);
+        GreedySchedulingAlgorithmPlusWaitingTime_version1.simulate(car_list,demand,n,600);
+        GreedySchedulingAlgorithmPlusWaitingTime_ElectronicCars.simulate(car_list1,demand1,n,600);
+
+        int a=0;
+
+
 
 
     }

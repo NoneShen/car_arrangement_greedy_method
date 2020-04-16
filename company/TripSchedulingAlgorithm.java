@@ -43,7 +43,7 @@ public abstract class TripSchedulingAlgorithm {
                 a[i] = calculate_distance(car.getPosition(),trip.getSrc())+time_remain;
                 set.add(i);
             }else{
-                a[i]=  calculate_distance(car.getPosition(),trip.getSrc());
+                a[i]= calculate_distance(car.getPosition(),trip.getSrc());
             }
         }
         index=sort_array(a);
@@ -90,6 +90,7 @@ public abstract class TripSchedulingAlgorithm {
         }
         return index[i];
     }
+
 
 
 

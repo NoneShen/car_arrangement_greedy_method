@@ -63,8 +63,11 @@ public class Trip {
     }
 
     public void calculate_end_time(int waiting_time) {
-        this.end_time = cost_trip+waiting_time+startTime;
+        this.end_time = revenue+waiting_time+startTime;
         this.waiting_time=waiting_time;
+    }
+    public void calculate_cost(int cost_on_way) {
+        this.cost_trip=cost_on_way+revenue;
     }
 
 
@@ -84,7 +87,7 @@ public class Trip {
         this.src=src;
         this.Dest=Dest;
         this.startTime=startTime;
-        cost_trip=calculate_distance(src,Dest);
+        cost_trip=0;
         revenue=calculate_distance(src,Dest);
         end_time=0;
         waiting_time=0;
