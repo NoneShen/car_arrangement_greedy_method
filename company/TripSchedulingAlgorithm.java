@@ -33,8 +33,8 @@ public abstract class TripSchedulingAlgorithm {
      */
 
 
-    static int[] get_index(Car_list car_list, Trip trip, int size, int[] a, HashSet<Integer> set) {
-        int time_remain;
+    static int[] get_index(Car_list car_list, Trip trip, int size, double[] a, HashSet<Integer> set) {
+        double time_remain;
         int[] index;
         for(int i = 0; i<size; i++){
             Car car=car_list.car_list.get(i);
@@ -60,9 +60,9 @@ public abstract class TripSchedulingAlgorithm {
      * @return
      */
 
-    static int car_point_set_first(Car_list car_list, Trip trip, int[] a, int[] index, HashSet<Integer> set) {
+    static int car_point_set_first(Car_list car_list, Trip trip, double[] a, int[] index, HashSet<Integer> set) {
         //  System.out.println(Des.get_time()+" "+time_from_car_to_customer+"  "+time);
-        trip.calculate_end_time(a[0]);
+        trip.calculate_end_time(a[0],car_list.car_list.get(index[0]));
         car_list.car_list.get(index[0]).setTime_stamp_arrive_des(trip.getEnd_time());
         car_list.car_list.get(index[0]).setPosition(trip.getDest());
         if(set.contains(index[0])){
@@ -81,8 +81,8 @@ public abstract class TripSchedulingAlgorithm {
      * @param i
      * @return
      */
-    static int car_point_set_i(Car_list car_list, Trip trip, int[] a, int[] index, HashSet<Integer> set, int i) {
-        trip.calculate_end_time(a[i]);
+    static int car_point_set_i(Car_list car_list, Trip trip, double[] a, int[] index, HashSet<Integer> set, int i) {
+        trip.calculate_end_time(a[i],car_list.car_list.get(index[i]));
         car_list.car_list.get(index[i]).setTime_stamp_arrive_des(trip.getEnd_time());
         car_list.car_list.get(index[i]).setPosition(trip.getDest());
         if(set.contains(index[i])){

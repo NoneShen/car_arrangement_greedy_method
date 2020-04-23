@@ -9,7 +9,8 @@ public class Trip {
     private Point Dest;
     private int startTime;
     private int revenue;
-    private int cost_trip;
+    private double cost_trip;
+    private double Customer_satisfaction_penalty;
 
     public int getRevenue() {
         return revenue;
@@ -19,8 +20,8 @@ public class Trip {
         this.revenue = revenue;
     }
 
-    private int end_time;
-    private int waiting_time;
+    private double end_time;
+    private double waiting_time;
 
     public Point getSrc() {
         return src;
@@ -46,7 +47,7 @@ public class Trip {
         this.startTime = startTime;
     }
 
-    public int getCost_trip() {
+    public double getCost_trip() {
         return cost_trip;
     }
 
@@ -54,7 +55,7 @@ public class Trip {
         this.cost_trip = cost_trip;
     }
 
-    public int getEnd_time() {
+    public double getEnd_time() {
         return end_time;
     }
 
@@ -62,21 +63,32 @@ public class Trip {
         this.end_time = end_time;
     }
 
-    public void calculate_end_time(int waiting_time) {
-        this.end_time = revenue+waiting_time+startTime;
+    public void calculate_end_time(double waiting_time, Car car) {
+        this.end_time =revenue/car.speed+waiting_time+startTime;
         this.waiting_time=waiting_time;
+        if(waiting_time<600){
+            Customer_satisfaction_penalty=0;
+        }if(waiting_time>=600&&waiting_time<1200){
+            Customer_satisfaction_penalty=waiting_time/60;
+        }else{
+            Customer_satisfaction_penalty=waiting_time*2/60;
+        }
     }
-    public void calculate_cost(int cost_on_way) {
-        this.cost_trip=cost_on_way+revenue;
+    public void calculate_cost(double cost_on_way, Car car) {
+        this.cost_trip=cost_on_way+revenue/car.speed;
     }
 
 
-    public int getWaiting_time() {
+    public double getWaiting_time() {
         return waiting_time;
     }
 
     public void setWaiting_time(int waiting_time) {
         this.waiting_time = waiting_time;
+    }
+
+    public double getCustomer_penalty() {
+        return Customer_satisfaction_penalty;
     }
 
     Trip(){
