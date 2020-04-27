@@ -37,7 +37,9 @@ public class GreedySchedulingAlgorithmPlusWaitingTime_ElectronicCars extends Tri
     //        System.out.println("Can not serve this customer, because there is not a car available in "+ max_waiting_time+"s.");
             return -1;
         }
-        trip.calculate_end_time(waiting_time+a[temp],car_list.car_list.get(index[temp]));
+        trip.setTimestamp_picked_up(waiting_time+a[temp]);
+        trip.calculate_end_timestamp(car_list,index[temp]);
+        trip.calculate_penalty();
         trip.calculate_cost(a[temp],car_list.car_list.get(index[temp]));
         car_list.car_list.get(index[temp]).setTime_stamp_arrive_des(trip.getEnd_time());
         car_list.car_list.get(index[temp]).setPosition(trip.getDest());

@@ -17,9 +17,9 @@ public class Main {
         for (int j = 0; j < n; j++) {
             Point p = new Point(random_num(), random_num());
             Point p1 = new Point(random_num(), random_num());
-            Trip t=new Trip(p,p1,time_list.get(j));
-            Trip t1=new Trip(p,p1,time_list.get(j));
-            Trip t2=new Trip(p,p1,time_list.get(j));
+            Trip t=new Trip(p,p1,time_list.get(j),j);
+            Trip t1=new Trip(p,p1,time_list.get(j),j);
+            Trip t2=new Trip(p,p1,time_list.get(j),j);
             demand.trip_list.add(t);
             demand1.trip_list.add(t1);
             demand2.trip_list.add(t2);
@@ -40,9 +40,11 @@ public class Main {
         // GreedySchedulingPlusAlgorithm.simulate(car_list,demand,n);
         //GreedySchedulingPlusElectronicCarsAlgorithm.simulate(car_list,demand,n);
 
-        GreedySchedulingAlgorithmPlusWaitingTime_version1.simulate(car_list,demand,n,1200);
-        GreedySchedulingAlgorithmPlusWaitingTime_version2.simulate(car_list1,demand1,n,1200);
-        GreedySchedulingAlgorithmPlusWaitingTime_ElectronicCars.simulate(car_list2,demand2,n,1200);
+//        GreedySchedulingAlgorithmPlusWaitingTime_version1.simulate(car_list,demand,n,1200);
+//        GreedySchedulingAlgorithmPlusWaitingTime_version2.simulate(car_list1,demand1,n,1200);
+//        GreedySchedulingAlgorithmPlusWaitingTime_ElectronicCars.simulate(car_list2,demand2,n,1200);
+        RideSharingAlgorithm.simulate(car_list,demand,n,1200);
+        GreedySchedulingAlgorithmPlusWaitingTime_version1.simulate(car_list1,demand1,n,1200);
 
         int a=0;
 

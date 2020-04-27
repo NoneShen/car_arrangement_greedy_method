@@ -5,12 +5,41 @@ import static com.company.TripSchedulingAlgorithm.calculate_distance;
 
 public class Trip {
 
+    public int trip_id;
+    public int shared_with;
     private Point src;
     private Point Dest;
     private int startTime;
     private int revenue;
     private double cost_trip;
     private double Customer_satisfaction_penalty;
+
+    private double timestamp_picked_up;
+    private int car_assigned_id;
+    private double end_time;
+    private double waiting_time;
+
+    public int getCar_assigned_id() {
+        return car_assigned_id;
+    }
+
+    public void setCar_assigned_id(int car_assigned_id) {
+        this.car_assigned_id = car_assigned_id;
+    }
+
+    public double getTimestamp_picked_up() {
+        return timestamp_picked_up;
+    }
+
+    public void setTimestamp_picked_up(double waiting_time) {
+        this.waiting_time=waiting_time;
+        this.timestamp_picked_up = waiting_time+startTime;
+    }
+    public void calculate_end_timestamp(Car_list car_list, int car_assigned_id){
+        this.end_time=timestamp_picked_up+revenue/car_list.car_list.get(car_assigned_id).speed;
+        this.car_assigned_id=car_assigned_id;
+    }
+
 
     public int getRevenue() {
         return revenue;
@@ -20,8 +49,7 @@ public class Trip {
         this.revenue = revenue;
     }
 
-    private double end_time;
-    private double waiting_time;
+
 
     public Point getSrc() {
         return src;
@@ -51,7 +79,7 @@ public class Trip {
         return cost_trip;
     }
 
-    public void setCost_trip(int cost_trip) {
+    public void setCost_trip(double cost_trip) {
         this.cost_trip = cost_trip;
     }
 
@@ -59,18 +87,18 @@ public class Trip {
         return end_time;
     }
 
-    public void setEnd_time(int end_time) {
+    public void setEnd_time(double end_time) {
         this.end_time = end_time;
     }
 
-    public void calculate_end_time(double waiting_time, Car car) {
-        this.end_time =revenue/car.speed+waiting_time+startTime;
-        this.waiting_time=waiting_time;
+    public void calculate_penalty() {
         if(waiting_time<600){
             Customer_satisfaction_penalty=0;
-        }if(waiting_time>=600&&waiting_time<1200){
+        }
+        else if(waiting_time>=600&&waiting_time<1200){
             Customer_satisfaction_penalty=waiting_time/60;
-        }else{
+        }
+        else{
             Customer_satisfaction_penalty=waiting_time*2/60;
         }
     }
@@ -95,7 +123,7 @@ public class Trip {
 
     }
 
-    Trip(Point src, Point Dest, int startTime){
+    Trip(Point src, Point Dest, int startTime,int trip_id){
         this.src=src;
         this.Dest=Dest;
         this.startTime=startTime;
@@ -103,6 +131,9 @@ public class Trip {
         revenue=calculate_distance(src,Dest);
         end_time=0;
         waiting_time=0;
+        shared_with=-1;
+        car_assigned_id=0;
+        this.trip_id=trip_id;
     }
 
 }
