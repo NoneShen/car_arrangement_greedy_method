@@ -10,7 +10,7 @@ public class GreedySchedulingAlgorithmPlusWaitingTime_version2 extends TripSched
         int size=car_list.car_list.size();//number of cars
         double[] a=new double[size];//distance between each car and the customer
         double cost_on_way=0;
-        double waiting_time=0;
+        double last_trip_remain_time=0;
         int temp=0;
         int sign=0;
         for(int i=0;i<size;i++){
@@ -20,8 +20,8 @@ public class GreedySchedulingAlgorithmPlusWaitingTime_version2 extends TripSched
         }
         int[] index=sort_array(a);
         while(temp<size&&sign==0){
-            waiting_time=Math.max(car_list.car_list.get(index[temp]).getTime_stamp_arrive_des()-trip.getStartTime(),0);
-            if(waiting_time+a[temp]<max_waiting_time){
+            last_trip_remain_time=Math.max(car_list.car_list.get(index[temp]).getTime_stamp_arrive_des()-trip.getStartTime(),0);
+            if(last_trip_remain_time+a[temp]<max_waiting_time){
                 sign=1;
                 temp--;
             }
@@ -31,7 +31,7 @@ public class GreedySchedulingAlgorithmPlusWaitingTime_version2 extends TripSched
            // System.out.println("Can not serve this customer, because there is not a car available in "+ max_waiting_time+"s.");
             return -1;
         }
-        trip.setTimestamp_picked_up(waiting_time+a[temp]);
+        trip.setTimestamp_picked_up(a[temp],last_trip_remain_time);
         trip.calculate_end_timestamp(car_list,index[temp]);
         trip.calculate_penalty();
         trip.calculate_cost(a[temp],car_list.car_list.get(index[temp]));

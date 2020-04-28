@@ -19,6 +19,12 @@ public class Trip {
     private double end_time;
     private double waiting_time;
 
+    public double getPick_up_waiting_time() {
+        return pick_up_waiting_time;
+    }
+
+    private double pick_up_waiting_time;
+
     public int getCar_assigned_id() {
         return car_assigned_id;
     }
@@ -31,8 +37,9 @@ public class Trip {
         return timestamp_picked_up;
     }
 
-    public void setTimestamp_picked_up(double waiting_time) {
-        this.waiting_time=waiting_time;
+    public void setTimestamp_picked_up(double pick_up_waiting_time,double last_trip_remain_time) {
+        this.pick_up_waiting_time=pick_up_waiting_time;
+        this.waiting_time=pick_up_waiting_time+last_trip_remain_time;
         this.timestamp_picked_up = waiting_time+startTime;
     }
     public void calculate_end_timestamp(Car_list car_list, int car_assigned_id){

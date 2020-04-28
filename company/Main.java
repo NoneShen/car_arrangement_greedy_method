@@ -2,11 +2,10 @@ package com.company;
 import java.util.*;
 
 import static com.company.AdditionalFunctions.*;
-import static com.company.TripSchedulingAlgorithm.*;
 
 public class Main {
     public static void main(String[] args) {
-        int k = 40;//car
+        int k = 50;//car
         //0-29 electronic car 30-99 normal car
         int n = 200;//customer
         //Create n random customers and their destination
@@ -43,8 +42,8 @@ public class Main {
 //        GreedySchedulingAlgorithmPlusWaitingTime_version1.simulate(car_list,demand,n,1200);
 //        GreedySchedulingAlgorithmPlusWaitingTime_version2.simulate(car_list1,demand1,n,1200);
 //        GreedySchedulingAlgorithmPlusWaitingTime_ElectronicCars.simulate(car_list2,demand2,n,1200);
-        RideSharingAlgorithm.simulate(car_list,demand,n,1200);
-        GreedySchedulingAlgorithmPlusWaitingTime_version1.simulate(car_list1,demand1,n,1200);
+        GreedySchedulingAlgorithmPlusWaitingTime_version2.simulate(car_list,demand,n,1200);
+        RideSharingAlgorithmBasedOnVersion2.simulate(car_list1,demand1,n,1200);
 
         int a=0;
 

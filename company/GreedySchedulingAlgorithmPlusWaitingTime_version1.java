@@ -30,7 +30,7 @@ public class GreedySchedulingAlgorithmPlusWaitingTime_version1 extends TripSched
             trip.setCar_assigned_id(-1);
             return -1;
         }
-        trip.setTimestamp_picked_up(a[temp]);
+        trip.setTimestamp_picked_up(a[temp],0);
         trip.calculate_end_timestamp(car_list,index[temp]);
         trip.calculate_penalty();
         trip.calculate_cost(a[temp],car_list.car_list.get(index[temp]));
