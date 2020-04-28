@@ -18,7 +18,7 @@ public class RideSharingAlgorithmBasedOnVersion2 extends TripSchedulingAlgorithm
         int distance_from_B_to_D=0;
         for(int i=0;i<trip_index;i++){
             trip_temp=demand.trip_list.get(i);
-            if(trip_temp.getTimestamp_picked_up()>trip.getStartTime()&&trip_temp.shared_with==-1){
+            if(trip_temp.getCar_assigned_id()!=-1&&trip_temp.getTimestamp_picked_up()>trip.getStartTime()&&trip_temp.shared_with==-1){
                 distance_from_A_to_C_passing_B=calculate_distance(trip_temp.getSrc(),trip.getSrc(),trip_temp.getDest());
                 distance_from_B_to_D_passing_C=calculate_distance(trip.getSrc(),trip_temp.getDest(),trip.getDest());
                 distance_from_A_to_C=calculate_distance(trip_temp.getSrc(),trip_temp.getDest());
