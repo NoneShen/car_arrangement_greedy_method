@@ -139,7 +139,7 @@ public class Trip {
         end_time=0;
         waiting_time=0;
         shared_with=-1;
-        car_assigned_id=0;
+        car_assigned_id=-1;
         this.trip_id=trip_id;
     }
 
