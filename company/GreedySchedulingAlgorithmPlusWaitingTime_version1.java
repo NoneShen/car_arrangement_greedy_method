@@ -1,8 +1,10 @@
 package com.company;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Vector;
 
-import static com.company.AdditionalFunctions.sort_array;
+import static com.company.AdditionalFunctions.*;
 
 public class GreedySchedulingAlgorithmPlusWaitingTime_version1 extends TripSchedulingAlgorithm implements TripSchedulingAlgorithm.algorithm {
 
@@ -26,7 +28,7 @@ public class GreedySchedulingAlgorithmPlusWaitingTime_version1 extends TripSched
             temp++;
         }
         if(sign==0){
-        //    System.out.println("Can not serve this customer, because there is not a car available in "+ max_waiting_time+"s.");
+        //   Write_content("output.txt","Can not serve this customer, because there is not a car available in "+ max_waiting_time+"s.");
             trip.setCar_assigned_id(-1);
             return -1;
         }
@@ -38,14 +40,15 @@ public class GreedySchedulingAlgorithmPlusWaitingTime_version1 extends TripSched
         car_list.car_list.get(index[temp]).setPosition(trip.getDest());
         return index[temp];
     }
-    static void simulate(Car_list car_list, Customer_demand demand, int n, int max_waiting_time){
+    static void simulate(Car_list car_list, Customer_demand demand, int n, int max_waiting_time) throws IOException {
         Trip trip_next=new Trip();
         int index=0;//the index of customer
         double total_cost=0;
         int total_revenue=0;
-        int Penalty=0;
+        double Penalty=0;
         int Count=0;
-        System.out.println("Version 1 :*************************************************************************************************");
+     //  Write_content("output.txt","Version 1 :*************************************************************************************************");
+        Write_content("output.txt","Greedy 1 :*************************************************************************************************");
         for(int time=0;time<3600;time++){
             if(index<n) {
                 trip_next=demand.trip_list.get(index);
@@ -54,7 +57,7 @@ public class GreedySchedulingAlgorithmPlusWaitingTime_version1 extends TripSched
                 index++;
                 int car_index=TripSchedule(car_list,trip_next,max_waiting_time);
                 if(car_index==-1){
-                    //      System.out.println("Lost one customer");
+                    //     Write_content("output.txt","Lost one customer");
                 }else{
                     total_cost += trip_next.getCost_trip();
                     total_revenue += trip_next.getRevenue();
@@ -63,12 +66,14 @@ public class GreedySchedulingAlgorithmPlusWaitingTime_version1 extends TripSched
                 }
             }
         }
-        System.out.println("Total Cost: "+total_cost*0.5);
-        System.out.println("Total revenue: "+total_revenue*2.5);
-        System.out.println("Total customer: "+Count);
-        System.out.println("Acceptance Rate "+ (double)Count/(double)n*100+ "%");
-        System.out.println("Main Objective "+total_revenue*2.5+"-"+Penalty+"-"+(n-Count)+"*k");
-        System.out.println("*************************************************************************************************");
+        double Average_revenue=total_revenue*2.5/Count;
+       Write_content("output.txt","Total Cost: "+total_cost*0.5+"\n");
+       Write_content("output.txt","Total revenue: "+total_revenue*2.5+"\n");
+       Write_content("output.txt","Total customer: "+Count+"\n");
+       Write_content("output.txt","Acceptance Rate "+ (double)Count/(double)n*100+ "%"+"\n");
+        BigDecimal b   =   new BigDecimal(Penalty*Average_revenue);
+        Penalty=b.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue();
+       Write_content("output.txt","Main Objective "+(total_revenue*2.5-total_cost*0.5)+"-"+Penalty+"-"+(n-Count)+"*k"+"\n");
     }
 }
 

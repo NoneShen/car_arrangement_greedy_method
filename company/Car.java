@@ -1,6 +1,8 @@
 package com.company;
 
-public class Car {
+import java.io.Serializable;
+
+public class Car implements Serializable {
     public Point position;
     public double time_stamp_arrive_des;
     public double speed;

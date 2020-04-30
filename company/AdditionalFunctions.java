@@ -1,8 +1,60 @@
 package com.company;
 
+import java.io.BufferedReader;
+import java.io.*;
 import java.util.*;
 
 public class AdditionalFunctions {
+
+
+    public static <T> List<T> deepCopy(List<T> src) throws IOException, ClassNotFoundException {
+    ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+    ObjectOutputStream out = new ObjectOutputStream(byteOut);
+    out.writeObject(src);
+    ByteArrayInputStream byteIn = new ByteArrayInputStream(byteOut.toByteArray());
+    ObjectInputStream in = new ObjectInputStream(byteIn);
+    @SuppressWarnings("unchecked")
+    List<T> dest = (List<T>) in.readObject();
+    return dest;
+    }
+
+    public static void Write_content(String fileName, String content) {
+        FileWriter writer = null;
+        try {
+            // 打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
+            writer = new FileWriter(fileName, true);
+            writer.write(content);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if(writer!= null){
+                    writer.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static boolean writeTxtFile(String filePath, String content) throws IOException {
+        boolean flag = false;
+        FileOutputStream fileOutputStream = null;
+        File file = new File(filePath);
+        if (!file.exists()) {
+            file.createNewFile();
+            flag = true;
+        }
+        try {
+            fileOutputStream = new FileOutputStream(file);
+            fileOutputStream.write(content.getBytes("UTF-8"));
+            fileOutputStream.close();
+            flag = true;
+        } catch (Exception e) {
+            System.out.println("文件写入失败！" + e);
+        }
+        return flag;
+    }
 
     /**
      * sort the array and return the original index of sorted array

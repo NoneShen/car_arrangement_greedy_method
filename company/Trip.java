@@ -1,9 +1,11 @@
 package com.company;
 
 
+import java.io.Serializable;
+
 import static com.company.TripSchedulingAlgorithm.calculate_distance;
 
-public class Trip {
+public class Trip implements Serializable {
 
     public int trip_id;
     public int shared_with;
@@ -103,10 +105,10 @@ public class Trip {
             Customer_satisfaction_penalty=0;
         }
         else if(waiting_time>=600&&waiting_time<1200){
-            Customer_satisfaction_penalty=waiting_time/60;
+            Customer_satisfaction_penalty=(waiting_time-600)/600;
         }
         else{
-            Customer_satisfaction_penalty=waiting_time*2/60;
+            Customer_satisfaction_penalty=(waiting_time-1200)/300+1;
         }
     }
     public void calculate_cost(double cost_on_way, Car car) {
