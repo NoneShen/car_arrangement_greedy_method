@@ -14,6 +14,7 @@ public abstract class TripSchedulingAlgorithm {
         public static int TripSchedule(Car_list car_list, Point a, Point b, int time) { return 0; }
     }
 
+
     /**
      * return a distance between two points
      * @return

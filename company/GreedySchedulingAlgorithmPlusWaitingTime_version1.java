@@ -42,13 +42,14 @@ public class GreedySchedulingAlgorithmPlusWaitingTime_version1 extends TripSched
     }
     static void simulate(Car_list car_list, Customer_demand demand, int n, int max_waiting_time) throws IOException {
         Trip trip_next=new Trip();
+        int k=car_list.car_list.size();
         int index=0;//the index of customer
         double total_cost=0;
         int total_revenue=0;
         double Penalty=0;
         int Count=0;
      //  Write_content("output.txt","Version 1 :*************************************************************************************************");
-        Write_content("output.txt","Greedy 1 :*************************************************************************************************");
+        Write_content("output.csv","Basic greedy algorithm,\""+k+","+n+"\""+","+k+","+n+",");
         for(int time=0;time<3600;time++){
             if(index<n) {
                 trip_next=demand.trip_list.get(index);
@@ -67,13 +68,19 @@ public class GreedySchedulingAlgorithmPlusWaitingTime_version1 extends TripSched
             }
         }
         double Average_revenue=total_revenue*2.5/Count;
-       Write_content("output.txt","Total Cost: "+total_cost*0.5+"\n");
-       Write_content("output.txt","Total revenue: "+total_revenue*2.5+"\n");
-       Write_content("output.txt","Total customer: "+Count+"\n");
-       Write_content("output.txt","Acceptance Rate "+ (double)Count/(double)n*100+ "%"+"\n");
+//       Write_content("output.txt","Total Cost: "+total_cost*0.5+"\n");
+//       Write_content("output.txt","Total revenue: "+total_revenue*2.5+"\n");
+//       Write_content("output.txt","Total customer: "+Count+"\n");
+//       Write_content("output.txt","Acceptance Rate "+ (double)Count/(double)n*100+ "%"+"\n");
         BigDecimal b   =   new BigDecimal(Penalty*Average_revenue);
+        BigDecimal b1   =   new BigDecimal((double)Count/(double)n*100);
         Penalty=b.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue();
-       Write_content("output.txt","Main Objective "+(total_revenue*2.5-total_cost*0.5)+"-"+Penalty+"-"+(n-Count)+"*k"+"\n");
+        double acceptance_rate=b1.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue();
+//       Write_content("output.txt","Main Objective "+(total_revenue*2.5-total_cost*0.5)+"-"+Penalty+"-"+(n-Count)+"*k"+"\n");
+        Write_content("output.csv",+acceptance_rate+"%"+",");
+        Write_content("output.csv",max_waiting_time/60+ "min"+",,,");
+        Write_content("output.csv",(total_revenue*2.5-total_cost*0.5)+"-"+Penalty+"-"+(n-Count)+"*k"+",,,"+"\n");
+
     }
 }
 

@@ -14,7 +14,7 @@ public class Main {
         //0-29 electronic car 30-99 normal car
         int n = 0;//customer
         int max_waiting_time=0;
-        writeTxtFile("output.txt","Begin\n");
+        writeTxtFile("output.csv",",Scenario,Vehicles,Passengers,Acceptance Rate,max_waiting time ,,,S(Rj) - S(Cj) - (N-M) * K - Customer Satisfaction Penalty,,,\n");
         File file = new File("input.txt");
         BufferedReader reader = null;
         try {
@@ -27,12 +27,12 @@ public class Main {
                 n=Integer.parseInt(data[1]);
                 max_waiting_time=Integer.parseInt(data[2]);
                 Test test = new Test(k, n).invoke();
-                Write_content("output.txt",tempString+"\n");
                 GreedySchedulingAlgorithmPlusWaitingTime_version1.simulate(test.getCar_list0(),test.getDemand0(),n,max_waiting_time);
                 GreedySchedulingAlgorithmPlusWaitingTime_version2.simulate(test.getCar_list1(),test.getDemand1(),n,max_waiting_time);
                 GreedySchedulingAlgorithmPlusWaitingTime_ElectronicCars.simulate(test.getCar_list2(),test.getDemand2(),n,max_waiting_time);
                 RideSharingAlgorithmBasedOnVersion1.simulate(test.getCar_list3(),test.getDemand3(),n,max_waiting_time);
                 RideSharingAlgorithmBasedOnVersion2.simulate(test.getCar_list4(),test.getDemand4(),n,max_waiting_time);
+                Write_content("output.csv",",\",\",,,,,,,,,,\n");
             }
             reader.close();
         } catch (IOException e) {
