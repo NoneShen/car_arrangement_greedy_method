@@ -13,26 +13,32 @@ public class Main {
         int k = 0;//car
         //0-29 electronic car 30-99 normal car
         int n = 0;//customer
+        int k_i;
         int max_waiting_time=0;
-        writeTxtFile("output.csv",",Scenario,Vehicles,Passengers,Acceptance Rate,max_waiting time ,,,S(Rj) - S(Cj) - (N-M) * K - Customer Satisfaction Penalty,,,\n");
+     //   writeTxtFile("output.csv",",Scenario,Vehicles,Passengers,Acceptance Rate,max_waiting time ,,,S(Rj) - S(Cj) - (N-M) * K - Customer Satisfaction Penalty,,,\n");
+        writeTxtFile("output.csv","Scenarios,A1,A2,A3,A4,A5");
         File file = new File("input.txt");
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(file));
             String tempString = null;
             // 一次读入一行，直到读入null为文件结束
+            int line=1;
             while ((tempString = reader.readLine()) != null) {
                 String data[]=tempString.split(" ");
                 k=Integer.parseInt(data[0]);
                 n=Integer.parseInt(data[1]);
+                k_i=Integer.parseInt(data[2]);
                 max_waiting_time=Integer.parseInt(data[2]);
                 Test test = new Test(k, n).invoke();
-                GreedySchedulingAlgorithmPlusWaitingTime_version1.simulate(test.getCar_list0(),test.getDemand0(),n,max_waiting_time);
-                GreedySchedulingAlgorithmPlusWaitingTime_version2.simulate(test.getCar_list1(),test.getDemand1(),n,max_waiting_time);
-                GreedySchedulingAlgorithmPlusWaitingTime_ElectronicCars.simulate(test.getCar_list2(),test.getDemand2(),n,max_waiting_time);
-                RideSharingAlgorithmBasedOnVersion1.simulate(test.getCar_list3(),test.getDemand3(),n,max_waiting_time);
-                RideSharingAlgorithmBasedOnVersion2.simulate(test.getCar_list4(),test.getDemand4(),n,max_waiting_time);
-                Write_content("output.csv",",\",\",,,,,,,,,,\n");
+                Write_content("output.csv","\nS"+line);
+                GreedySchedulingAlgorithmPlusWaitingTime_version1.simulate(test.getCar_list0(),test.getDemand0(),n,max_waiting_time,k_i);
+                GreedySchedulingAlgorithmPlusWaitingTime_version2.simulate(test.getCar_list1(),test.getDemand1(),n,max_waiting_time,k_i);
+                GreedySchedulingAlgorithmPlusWaitingTime_ElectronicCars.simulate(test.getCar_list2(),test.getDemand2(),n,max_waiting_time,k_i);
+                RideSharingAlgorithmBasedOnVersion1.simulate(test.getCar_list3(),test.getDemand3(),n,max_waiting_time,k_i);
+                RideSharingAlgorithmBasedOnVersion2.simulate(test.getCar_list4(),test.getDemand4(),n,max_waiting_time,k_i);
+                line++;
+
             }
             reader.close();
         } catch (IOException e) {

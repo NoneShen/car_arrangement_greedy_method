@@ -108,7 +108,7 @@ public class Trip implements Serializable {
             Customer_satisfaction_penalty=(waiting_time-600)/600;
         }
         else{
-            Customer_satisfaction_penalty=(waiting_time-1200)/300+1;
+            Customer_satisfaction_penalty=(waiting_time-1200)/600+1;
         }
     }
     public void calculate_cost(double cost_on_way, Car car) {
