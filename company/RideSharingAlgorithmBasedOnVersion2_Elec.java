@@ -6,32 +6,32 @@ import java.util.List;
 
 import static com.company.AdditionalFunctions.*;
 
-public class RideSharingAlgorithmBasedOnVersion2 extends TripSchedulingAlgorithm implements TripSchedulingAlgorithm.algorithm {
+public class RideSharingAlgorithmBasedOnVersion2_Elec extends TripSchedulingAlgorithm implements TripSchedulingAlgorithm.algorithm {
 
-    public static int TripSchedule(Car_list car_list, Customer_demand demand,int trip_index,int Last_trip_arranged_index, int max_waiting_time){
+    public static int TripSchedule(Car_list car_list, Customer_demand demand,int trip_index,int Last_trip_arranged_index,int max_waiting_time){
         Trip trip=demand.trip_list.get(trip_index);
         Trip trip_temp=new Trip();
-        double Over_lap1=0;
-        double Over_lap2=0;
-        double Over_lap1_target=1.3;
-        double Over_lap2_target=1.4;
+        double Over_head1=0;
+        double Over_head2=0;
+        double Over_head1_target=1.3;
+        double Over_head2_target=1.4;
         int Trip_to_be_shared=-1;
         int distance_from_A_to_C_passing_B=0;
         int distance_from_B_to_D_passing_C=0;
         int distance_from_A_to_C=0;
         int distance_from_B_to_D=0;
         for(int i=0;i<=Last_trip_arranged_index;i++){
-            trip_temp=demand.trip_list.get(i);
+           trip_temp=demand.trip_list.get(i);
             if(trip_temp.getCar_assigned_id()!=-1&&trip_temp.getTimestamp_picked_up()>trip.getStartTime()&&trip_temp.shared_with==-1){
                 distance_from_A_to_C_passing_B=calculate_distance(trip_temp.getSrc(),trip.getSrc(),trip_temp.getDest());
                 distance_from_B_to_D_passing_C=calculate_distance(trip.getSrc(),trip_temp.getDest(),trip.getDest());
                 distance_from_A_to_C=calculate_distance(trip_temp.getSrc(),trip_temp.getDest());
                 distance_from_B_to_D=calculate_distance(trip.getSrc(),trip.getDest());
-                Over_lap1=(double) distance_from_A_to_C_passing_B/distance_from_A_to_C;
-                Over_lap2=(double) distance_from_B_to_D_passing_C/distance_from_B_to_D;
-                if(Over_lap1<=1.3&&Over_lap2<=1.4&&Over_lap1+Over_lap2<Over_lap1_target+Over_lap2_target){
-                    Over_lap1_target=Over_lap1;
-                    Over_lap2_target=Over_lap2;
+                Over_head1=(double) distance_from_A_to_C_passing_B/distance_from_A_to_C;
+                Over_head2=(double) distance_from_B_to_D_passing_C/distance_from_B_to_D;
+                if(Over_head1<=1.3&&Over_head2<=1.4&&Over_head1+Over_head2<Over_head1_target+Over_head2_target){
+                    Over_head1_target=Over_head1;
+                    Over_head2_target=Over_head2;
                     Trip_to_be_shared=i;
                 }
             }
@@ -60,7 +60,7 @@ public class RideSharingAlgorithmBasedOnVersion2 extends TripSchedulingAlgorithm
             trip.calculate_penalty();
             return trip.getCar_assigned_id();
         }else {
-            return GreedySchedulingAlgorithmPlusWaitingTime_version2.TripSchedule(car_list,trip,max_waiting_time);
+          return GreedySchedulingAlgorithmPlusWaitingTime_version2_Elec.TripSchedule(car_list,trip,max_waiting_time);
         }
     }
     static void simulate(Car_list car_list, Customer_demand demand, int n, int max_waiting_time,int k_i){
@@ -68,8 +68,8 @@ public class RideSharingAlgorithmBasedOnVersion2 extends TripSchedulingAlgorithm
         int index=0;//the index of customer
         double total_cost=0;
         double total_revenue=0;
-        int k=car_list.car_list.size();
         double Penalty=0;
+        int k=car_list.car_list.size();
         int Count=0;
         List<Trip> Trips_not_arranged=new ArrayList<>();
         Trip trip_next_not_arranged=new Trip();
@@ -108,12 +108,14 @@ public class RideSharingAlgorithmBasedOnVersion2 extends TripSchedulingAlgorithm
                 Count++;
             }
         }
+//       Write_content("output.txt","Total Cost: "+total_cost+"\n");
+//       Write_content("output.txt","Total revenue: "+total_revenue+"\n");
+//       Write_content("output.txt","Total customer: "+Count+"\n");
 
         double Average_revenue=total_revenue/Count;
         BigDecimal b   =   new BigDecimal(total_revenue-total_cost-Penalty*Average_revenue-(n-Count)*k_i);
         double Objective=b.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue();
         Write_content("output.csv",Objective+"");
-        Write_content("output.txt","Acceptance Rate "+ (double)Count/(double)n*100+ "%"+"\n");
 
 
     }

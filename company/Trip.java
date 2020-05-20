@@ -12,14 +12,19 @@ public class Trip implements Serializable {
     private Point src;
     private Point Dest;
     private int startTime;
-    private int revenue;
+    private int distance_can_be_charged;
+    private double revenue;
     private double cost_trip;
     private double Customer_satisfaction_penalty;
-
     private double timestamp_picked_up;
     private int car_assigned_id;
     private double end_time;
     private double waiting_time;
+    public double Gasoline_cost_rate=0.003;
+    public double Electricity_cost_rate=0.0005;
+    public double Normal_charge_rate=0.016;
+    public double Shared_charge_rate=0.0129;
+
 
     public double getPick_up_waiting_time() {
         return pick_up_waiting_time;
@@ -44,18 +49,17 @@ public class Trip implements Serializable {
         this.waiting_time=pick_up_waiting_time+last_trip_remain_time;
         this.timestamp_picked_up = waiting_time+startTime;
     }
-    public void calculate_end_timestamp(Car_list car_list, int car_assigned_id){
-        this.end_time=timestamp_picked_up+revenue/car_list.car_list.get(car_assigned_id).speed;
-        this.car_assigned_id=car_assigned_id;
+    public void calculate_end_timestamp(Car car){
+        this.end_time=timestamp_picked_up+distance_can_be_charged/car.speed;
     }
 
 
-    public int getRevenue() {
+    public double getRevenue() {
         return revenue;
     }
 
-    public void setRevenue(int revenue) {
-        this.revenue = revenue;
+    public int getDistance_can_be_charged() {
+        return distance_can_be_charged;
     }
 
 
@@ -101,20 +105,35 @@ public class Trip implements Serializable {
     }
 
     public void calculate_penalty() {
-        if(waiting_time<600){
+        if(waiting_time<900){
             Customer_satisfaction_penalty=0;
         }
-        else if(waiting_time>=600&&waiting_time<1200){
-            Customer_satisfaction_penalty=(waiting_time-600)/600;
+        else {
+            Customer_satisfaction_penalty=(waiting_time-900)/900;
         }
-        else{
-            Customer_satisfaction_penalty=(waiting_time-1200)/600+1;
-        }
+
     }
-    public void calculate_cost(double cost_on_way, Car car) {
-        this.cost_trip=cost_on_way+revenue/car.speed;
+    public void calculate_cost_and_revenue_and_set_car_distance_traveled(double time_cost_on_way, Car car) {
+        int Cost_distance=(int)(time_cost_on_way*car.speed)+distance_can_be_charged;
+        if(!car.is_electronic){
+            this.cost_trip= Cost_distance* Gasoline_cost_rate;
+        }else {
+            this.cost_trip = Cost_distance* Electricity_cost_rate;
+        }
+        revenue=Math.max(2.20+Normal_charge_rate*distance_can_be_charged,7.2);
+        car.Distance_traveled+=Cost_distance;
+    }
+    public void calculate_revenue_shared(){
+        revenue=Math.max(2.20+Shared_charge_rate*distance_can_be_charged,7.2);
     }
 
+    public void calculate_cost_shared( int total_distance_for_this_shared_trip,Car car){
+        if(!car.is_electronic){
+            this.cost_trip= total_distance_for_this_shared_trip/2.0* Gasoline_cost_rate;
+        }else {
+            this.cost_trip = total_distance_for_this_shared_trip/2.0* Electricity_cost_rate;
+        }
+    }
 
     public double getWaiting_time() {
         return waiting_time;
@@ -137,7 +156,7 @@ public class Trip implements Serializable {
         this.Dest=Dest;
         this.startTime=startTime;
         cost_trip=0;
-        revenue=calculate_distance(src,Dest);
+        distance_can_be_charged=calculate_distance(src,Dest);
         end_time=0;
         waiting_time=0;
         shared_with=-1;
